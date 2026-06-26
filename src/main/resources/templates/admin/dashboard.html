@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <h1><a th:href="@{/}">TravelApp</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/admin}">Dashboard</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </div>
+</header>
+
+<main class="admin-layout">
+    <aside class="sidebar-panel">
+        <div class="sidebar-brand">
+            <span>Travel</span><strong>Pro</strong>
+        </div>
+        <nav class="sidebar-menu">
+            <a th:href="@{/admin}" class="active">Dashboard</a>
+            <a th:href="@{/admin/users}">Users</a>
+            <a th:href="@{/admin/destinations}">Destinations</a>
+            <a th:href="@{/admin/packages}">Packages</a>
+            <a th:href="@{/admin/bookings}">Bookings</a>
+            <a th:href="@{/admin/reviews}">Reviews</a>
+        </nav>
+        <div class="sidebar-footer">
+            <p>Live updates every 30s.</p>
+        </div>
+    </aside>
+
+    <section class="dashboard-main">
+        <div class="dashboard-header">
+            <div>
+                <p class="dashboard-subtitle">Admin Dashboard</p>
+                <h1>Operational overview</h1>
+            </div>
+            <div class="header-actions">
+                <a th:href="@{/admin/export/bookings}" class="button button-secondary">Export report</a>
+                <a th:href="@{/admin/packages/add}" class="button">Create package</a>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <article class="metric-card metric-primary">
+                <div class="metric-title">Total Users</div>
+                <div class="metric-value" th:text="${totalUsers}"></div>
+                <div class="metric-note">Active this month</div>
+            </article>
+            <article class="metric-card metric-accent">
+                <div class="metric-title">Destinations</div>
+                <div class="metric-value" th:text="${totalDestinations}"></div>
+                <div class="metric-note">Unique locations</div>
+            </article>
+            <article class="metric-card metric-alt">
+                <div class="metric-title">Packages</div>
+                <div class="metric-value" th:text="${totalPackages}"></div>
+                <div class="metric-note">Ready for booking</div>
+            </article>
+            <article class="metric-card metric-glow">
+                <div class="metric-title">Bookings</div>
+                <div class="metric-value" th:text="${totalBookings}"></div>
+                <div class="metric-note">New this week</div>
+            </article>
+        </div>
+
+        <div class="revenue-panel">
+            <div>
+                <p class="metric-title">Total Revenue</p>
+                <h2 th:text="${'LKR ' + #numbers.formatDecimal(totalRevenue, 1, 2)}"></h2>
+                <p class="metric-note">Revenue captured from live sales</p>
+            </div>
+            <div class="revenue-badge">+12.8% vs last month</div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-card-header">
+                <div>
+                    <h2>Recent Bookings</h2>
+                    <p>Latest booking activity for your admin review.</p>
+                </div>
+                <button class="button button-secondary">View all</button>
+            </div>
+            <div class="table-scroll">
+                <table th:if="${!recentBookings.isEmpty()}">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Package</th>
+                            <th>Travel Date</th>
+                            <th>Travelers</th>
+                            <th>Total Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="booking : ${recentBookings}">
+                            <td th:text="${booking.user.name}"></td>
+                            <td th:text="${booking.tourPackage.name}"></td>
+                            <td th:text="${booking.travelDate}"></td>
+                            <td th:text="${booking.travelers}"></td>
+                            <td th:text="${'$' + booking.totalPrice}"></td>
+                            <td><span class="status-pill" th:text="${booking.status}"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p th:if="${recentBookings.isEmpty()}" class="empty-state">No recent bookings</p>
+            </div>
+        </div>
+
+        <div class="action-panel">
+            <div>
+                <h2>Quick actions</h2>
+                <p>Manage high-value admin workflows directly from the dashboard.</p>
+            </div>
+            <div class="action-buttons">
+                <a th:href="@{/admin/users/add}" class="button button-secondary">Add user</a>
+                <a th:href="@{/admin/destinations/add}" class="button">New destination</a>
+                <a th:href="@{/admin/packages/add}" class="button button-secondary">New package</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 TravelApp Admin Panel. All Rights Reserved.</p>
+    </div>
+</footer>
+<div id="chatbot-widget" class="chatbot-widget" aria-live="polite">
+    <button type="button" class="chatbot-launcher" aria-label="Open chatbot">Need help?</button>
+    <div class="chatbot-panel" role="dialog" aria-modal="true" aria-label="Travel assistant chat">
+        <div class="chatbot-header">
+            <div>
+                <strong>TravelApp Assistant</strong>
+                <p>Ask about booking, packages, destinations, and support.</p>
+            </div>
+            <button type="button" class="chatbot-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="chatbot-messages" aria-label="Chat messages"></div>
+        <div class="chatbot-options-note">Choose one of the help options below.</div>
+        <div class="chatbot-quick-links">
+            <button type="button" class="chatbot-quick-link">How to book</button>
+            <button type="button" class="chatbot-quick-link">View packages</button>
+            <button type="button" class="chatbot-quick-link">Show travel places</button>
+            <button type="button" class="chatbot-quick-link">See package prices</button>
+            <button type="button" class="chatbot-quick-link">How to register</button>
+            <button type="button" class="chatbot-quick-link">Contact us</button>
+        </div>
+    </div>
+</div>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <h1><a th:href="@{/}">TravelApp</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/destinations}">Destinations</a>
+            <a th:href="@{/packages}">Packages</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/admin}">Admin</a>
+        </nav>
+    </div>
+</header>
+<main class="container">
+    <section class="page-heading">
+        <h2>Booking Confirmation</h2>
+    </section>
+    <section class="card-grid">
+        <div class="card">
+            <div class="card-body">
+                <h3>Booking Confirmed</h3>
+                <p><strong>Package:</strong> <span th:text="${booking.tourPackage.name}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${booking.user.email}"></span></p>
+                <p><strong>Travel Date:</strong> <span th:text="${booking.travelDate}"></span></p>
+                <p><strong>Travelers:</strong> <span th:text="${booking.travelers}"></span></p>
+                <p><strong>Total Price:</strong> <span th:text="${booking.totalPrice}"></span> LKR</p>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 TravelApp. All Rights Reserved.</p>
+    </div>
+</footer>
+<div id="chatbot-widget" class="chatbot-widget" aria-live="polite">
+    <button type="button" class="chatbot-launcher" aria-label="Open chatbot">Need help?</button>
+    <div class="chatbot-panel" role="dialog" aria-modal="true" aria-label="Travel assistant chat">
+        <div class="chatbot-header">
+            <div>
+                <strong>TravelApp Assistant</strong>
+                <p>Ask about booking, packages, destinations, and support.</p>
+            </div>
+            <button type="button" class="chatbot-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="chatbot-messages" aria-label="Chat messages"></div>
+        <div class="chatbot-options-note">Choose one of the help options below.</div>
+        <div class="chatbot-quick-links">
+            <button type="button" class="chatbot-quick-link">How to book</button>
+            <button type="button" class="chatbot-quick-link">View packages</button>
+            <button type="button" class="chatbot-quick-link">Show travel places</button>
+            <button type="button" class="chatbot-quick-link">See package prices</button>
+            <button type="button" class="chatbot-quick-link">How to register</button>
+            <button type="button" class="chatbot-quick-link">Contact us</button>
+        </div>
+    </div>
+</div>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>

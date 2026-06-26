@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40,167,69,0.3);
+        }
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-register:hover {
+            background-color: #218838;
+        }
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .auth-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <h1><a th:href="@{/}">TravelApp</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/login}">Login</a>
+            <a th:href="@{/register}">Register</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="auth-container">
+        <h2>User Registration</h2>
+        
+        <div th:if="${error}" class="error" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/register}">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your full name"/>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com"/>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" placeholder="Your phone number"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter password"/>
+            </div>
+            <button type="submit" class="btn-register">Register</button>
+        </form>
+
+        <div class="auth-link">
+            Already have an account? <a th:href="@{/login}">Login here</a>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 TravelApp. All Rights Reserved.</p>
+    </div>
+</footer>
+<div id="chatbot-widget" class="chatbot-widget" aria-live="polite">
+    <button type="button" class="chatbot-launcher" aria-label="Open chatbot">Need help?</button>
+    <div class="chatbot-panel" role="dialog" aria-modal="true" aria-label="Travel assistant chat">
+        <div class="chatbot-header">
+            <div>
+                <strong>TravelApp Assistant</strong>
+                <p>Ask about booking, packages, destinations, and support.</p>
+            </div>
+            <button type="button" class="chatbot-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="chatbot-messages" aria-label="Chat messages"></div>
+        <div class="chatbot-options-note">Choose one of the help options below.</div>
+        <div class="chatbot-quick-links">
+            <button type="button" class="chatbot-quick-link">How to book</button>
+            <button type="button" class="chatbot-quick-link">View packages</button>
+            <button type="button" class="chatbot-quick-link">Show travel places</button>
+            <button type="button" class="chatbot-quick-link">See package prices</button>
+            <button type="button" class="chatbot-quick-link">How to register</button>
+            <button type="button" class="chatbot-quick-link">Contact us</button>
+        </div>
+    </div>
+</div>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>

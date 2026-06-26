@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <h1><a th:href="@{/}">TravelApp</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/admin}">Dashboard</a>
+            <a th:href="@{/logout}">Logout</a>
+        </nav>
+    </div>
+</header>
+
+<main class="admin-layout">
+    <aside class="sidebar-panel">
+        <div class="sidebar-brand">
+            <span>Travel</span><strong>Pro</strong>
+        </div>
+        <nav class="sidebar-menu">
+            <a th:href="@{/admin}">Dashboard</a>
+            <a th:href="@{/admin/users}">Users</a>
+            <a th:href="@{/admin/destinations}" class="active">Destinations</a>
+            <a th:href="@{/admin/packages}">Packages</a>
+            <a th:href="@{/admin/bookings}">Bookings</a>
+            <a th:href="@{/admin/reviews}">Reviews</a>
+        </nav>
+        <div class="sidebar-footer">
+            Live updates every 30s.
+        </div>
+    </aside>
+    <section class="dashboard-main">
+        <h1 th:if="${destination == null}">Add New Destination</h1>
+        <h1 th:if="${destination != null}">Edit Destination</h1>
+
+    <div class="form-panel">
+        <form th:if="${destination == null}" th:action="@{/admin/destinations/add}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required/>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" required/>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" placeholder="Beach, Mountain, etc." required/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" id="imageUrl" name="imageUrl" required/>
+            </div>
+            <div class="form-group">
+                <label for="price">Price (LKR)</label>
+                <input type="number" id="price" name="price" step="0.01" required/>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating (1-5)</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" step="0.1" required/>
+            </div>
+            <button type="submit" class="btn-submit">Add Destination</button>
+            <a th:href="@{/admin/destinations}" class="btn-cancel">Cancel</a>
+        </form>
+
+        <form th:if="${destination != null}" th:action="@{/admin/destinations/edit/{id}(id=${destination.id})}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" th:value="${destination.name}" required/>
+            </div>
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" th:value="${destination.country}" required/>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" th:value="${destination.category}" required/>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required th:text="${destination.description}"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" id="imageurl" name="imageUrl" th:value="${destination.imageUrl}" required/>
+            </div>
+            <div class="form-group">
+                <label for="price">Price (LKR)</label>
+                <input type="number" id="price" name="price" step="0.01" th:value="${destination.price}" required/>
+            </div>
+            <div class="form-group">
+                <label for="rating">Rating (1-5)</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" step="0.1" th:value="${destination.rating}" required/>
+            </div>
+            <button type="submit" class="btn-submit">Update Destination</button>
+            <a th:href="@{/admin/destinations}" class="btn-cancel">Cancel</a>
+        </form>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 TravelApp Admin Panel. All Rights Reserved.</p>
+    </div>
+</footer>
+<div id="chatbot-widget" class="chatbot-widget" aria-live="polite">
+    <button type="button" class="chatbot-launcher" aria-label="Open chatbot">Need help?</button>
+    <div class="chatbot-panel" role="dialog" aria-modal="true" aria-label="Travel assistant chat">
+        <div class="chatbot-header">
+            <div>
+                <strong>TravelApp Assistant</strong>
+                <p>Ask about booking, packages, destinations, and support.</p>
+            </div>
+            <button type="button" class="chatbot-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="chatbot-messages" aria-label="Chat messages"></div>
+        <div class="chatbot-options-note">Choose one of the help options below.</div>
+        <div class="chatbot-quick-links">
+            <button type="button" class="chatbot-quick-link">How to book</button>
+            <button type="button" class="chatbot-quick-link">View packages</button>
+            <button type="button" class="chatbot-quick-link">Show travel places</button>
+            <button type="button" class="chatbot-quick-link">See package prices</button>
+            <button type="button" class="chatbot-quick-link">How to register</button>
+            <button type="button" class="chatbot-quick-link">Contact us</button>
+        </div>
+    </div>
+</div>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <h1><a th:href="@{/}">TravelApp</a></h1>
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <a th:href="@{/destinations}">Destinations</a>
+            <a th:href="@{/packages}">Packages</a>
+            <a th:href="@{/about}">About</a>
+            <a th:href="@{/contact}">Contact</a>
+            <a th:href="@{/admin}">Admin</a>
+        </nav>
+    </div>
+</header>
+<main class="container">
+    <section class="page-heading">
+        <h2>Book Package</h2>
+        <p>Complete your booking with a clean, secure checkout experience.</p>
+    </section>
+    <section class="booking-grid">
+        <article class="package-card">
+            <div class="package-card-header">
+                <span class="eyebrow" th:text="${package.category}">Adventure</span>
+                <h3 th:text="${package.name}">Package name</h3>
+                <div class="badge-group">
+                    <span class="badge" th:text="${package.destination != null ? package.destination.name : 'Destination'}">Mirissa</span>
+                    <span class="badge" th:text="${package.rating} + ' ★'">4.8 ★</span>
+                    <span class="badge" th:text="${package.maxTravelers} + ' travelers'">6 travelers</span>
+                </div>
+            </div>
+            <p class="package-copy" th:text="${package.description}">Package description goes here.</p>
+            <div class="package-meta-list">
+                <div>
+                    <strong>Price per traveler</strong>
+                    <span th:text="'LKR ' + package.price">LKR 180.00</span>
+                </div>
+                <div>
+                    <strong>Destination</strong>
+                    <span th:text="${package.destination != null ? package.destination.country : 'Unknown'}">Sri Lanka</span>
+                </div>
+                <div>
+                    <strong>Booking available</strong>
+                    <span th:text="${package.destination != null ? package.destination.name : '—'}">Mirissa beach</span>
+                </div>
+            </div>
+            <div class="package-highlights">
+                <h4>What’s included</h4>
+                <p class="include-list" th:text="${package.includes != null ? package.includes : 'Accommodation, transport, meals, guided tours'}">Package inclusions...</p>
+            </div>
+        </article>
+
+        <aside class="form-card booking-panel">
+            <div th:if="${error}" class="form-error">
+                <p th:text="${error}"></p>
+            </div>
+            <div class="summary-block">
+                <p class="summary-label">Booking summary</p>
+                <div class="summary-row">
+                    <span>Package</span>
+                    <strong th:text="${package.name}">Mirissa Whale Watching</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Price</span>
+                    <strong th:text="'LKR ' + package.price">LKR 180.00</strong>
+                </div>
+            </div>
+            <form th:action="@{/book}" method="post" class="booking-form" onsubmit="return validateBookingForm()">
+                <input type="hidden" name="packageId" th:value="${package.id}"/>
+                <label for="userEmail">Email</label>
+                <input id="userEmail" type="email" name="userEmail" required placeholder="you@example.com"/>
+                <div class="field-row">
+                    <div>
+                        <label for="travelDate">Travel Date</label>
+                        <input id="travelDate" type="date" name="travelDate" required/>
+                    </div>
+                    <div>
+                        <label for="travelers">Travelers</label>
+                        <input id="travelers" type="number" name="travelers" min="1" max="10" value="1" required/>
+                    </div>
+                </div>
+                <button type="submit" class="button">Confirm Booking</button>
+            </form>
+        </aside>
+    </section>
+</main>
+<footer class="site-footer">
+    <div class="container">
+        <p>© 2026 TravelApp. All Rights Reserved.</p>
+    </div>
+</footer>
+<script>
+    function validateBookingForm() {
+        const travelers = document.querySelector('[name="travelers"]').value;
+        const travelDate = document.querySelector('[name="travelDate"]').value;
+        if (!travelDate || new Date(travelDate) < new Date()) {
+            alert('Please select a valid travel date.');
+            return false;
+        }
+        if (travelers < 1) {
+            alert('Please select at least one traveler.');
+            return false;
+        }
+        return true;
+    }
+</script>
+<div id="chatbot-widget" class="chatbot-widget" aria-live="polite">
+    <button type="button" class="chatbot-launcher" aria-label="Open chatbot">Need help?</button>
+    <div class="chatbot-panel" role="dialog" aria-modal="true" aria-label="Travel assistant chat">
+        <div class="chatbot-header">
+            <div>
+                <strong>TravelApp Assistant</strong>
+                <p>Ask about booking, packages, destinations, and support.</p>
+            </div>
+            <button type="button" class="chatbot-close" aria-label="Close chat">×</button>
+        </div>
+        <div class="chatbot-messages" aria-label="Chat messages"></div>
+        <div class="chatbot-options-note">Choose one of the help options below.</div>
+        <div class="chatbot-quick-links">
+            <button type="button" class="chatbot-quick-link">How to book</button>
+            <button type="button" class="chatbot-quick-link">View packages</button>
+            <button type="button" class="chatbot-quick-link">Show travel places</button>
+            <button type="button" class="chatbot-quick-link">See package prices</button>
+            <button type="button" class="chatbot-quick-link">How to register</button>
+            <button type="button" class="chatbot-quick-link">Contact us</button>
+        </div>
+    </div>
+</div>
+<script src="/js/chatbot.js"></script>
+</body>
+</html>
