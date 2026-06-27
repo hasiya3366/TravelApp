@@ -19,6 +19,13 @@
 	<developers>
 		<developer/>
 	</developers>
+	<profiles>
+    <profile>
+        <id>production</id>
+        <properties>
+            </properties>
+    </profile>
+</profiles>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -26,8 +33,9 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
-	</properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
